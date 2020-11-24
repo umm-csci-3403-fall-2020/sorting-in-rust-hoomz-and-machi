@@ -88,6 +88,7 @@ fn quicksort<T: PartialOrd + std::fmt::Debug>(v: &mut [T]) {
     // end up with infinite recursion.)
 
     let length = v.len();
+    
     // If the array has 0 or 1 elements it's already sorted
     // and we'll just stop.
     if length < 2 {
@@ -96,9 +97,18 @@ fn quicksort<T: PartialOrd + std::fmt::Debug>(v: &mut [T]) {
 
     // Now choose a pivot and do the organizing.
     
-    // ...
+    let mut smaller = 0; //choosing the pivot to be at the beginning of the vector
+    let mut larger = length - 1; 
 
-    let smaller = 99999999; // Totally wrong – you should fix this.
+    while smaller < larger { //comparing the value at the pivot position to the position next to it
+        if v[smaller] > v[smaller + 1] {  
+            v.swap(smaller, smaller + 1); 
+            smaller = smaller + 1
+        } else {
+            v.swap(smaller + 1, larger);
+            larger = larger - 1
+        }
+    }
 
     // Sort all the items < pivot
     quicksort(&mut v[0..smaller]);
@@ -158,7 +168,20 @@ fn merge<T: PartialOrd + std::marker::Copy + std::fmt::Debug>(xs: Vec<T>, ys: Ve
 
     // This is totally wrong and will not sort. You should replace it
     // with something useful. :)
-    return xs;
+
+    let mut output = Vec::<T>::new();
+
+    for _i in 0..xs.len(){
+        output.push(xs[_i])
+    }
+
+    for _i in 0..ys.len(){
+        output.push(ys[_i])
+    }
+
+    insertion_sort(&mut output);
+
+    return output;
 }
 
 fn is_sorted<T: PartialOrd>(slice: &[T]) -> bool {
