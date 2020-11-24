@@ -168,18 +168,27 @@ fn merge<T: PartialOrd + std::marker::Copy + std::fmt::Debug>(xs: Vec<T>, ys: Ve
 
     // This is totally wrong and will not sort. You should replace it
     // with something useful. :)
-
+    
+    let mut xs_index = 0;
+    let mut ys_index = 0;
     let mut output = Vec::<T>::new();
 
-    for _i in 0..xs.len(){
-        output.push(xs[_i])
+    while xs_index < xs.len() && ys_index < ys.len(){
+        if xs[xs_index] < ys[ys_index]{
+            output.push(xs[xs_index]);
+            xs_index+=1;
+        }
+        else{
+            output.push(ys[ys_index]);
+            ys_index+=1;
+        }
     }
-
-    for _i in 0..ys.len(){
-        output.push(ys[_i])
+    if xs_index < xs.len(){
+        output.extend(&xs[xs_index..xs.len()]);
     }
-
-    insertion_sort(&mut output);
+    if ys_index < ys.len(){
+        output.extend(&ys[ys_index..ys.len()]);
+    }
 
     return output;
 }
